@@ -1,10 +1,11 @@
 const Student = require('../models/Student');
+const Semester = require('../models/Semester');
 const { Edupage } = require('edupage-api');
 const { StatusCodes } = require('http-status-codes');
 const { BadRequestError, UnathenticatedError } = require('../errors');
 
 const login = async (req, res) => {
-  const { username, password } = req.body;
+  const { username, password, term } = req.body;
 
   if (!username || !password) {
     throw new BadRequestError('Failed to login. Please provide username and password.');
@@ -12,19 +13,12 @@ const login = async (req, res) => {
 
   const edupage = new Edupage();
   await edupage.login(username, password);
+  let className = edupage.user.class.name;
+
   let semesterName;
 
-  // TODO: set semester name so the user with correct semester_id can be added to db
-
-  switch (edupage.user.class.name) {
-    case 'A':
-    case 'B':
-    case 'C':
-    case 'D':
-      break;
-
-    default:
-      break;
+  if(className == 'A' || className == 'B' || className == 'C' || className == 'D') {
+    semesterName = 
   }
 
   edupage.exit();

@@ -1,0 +1,16 @@
+diff --git a/node_modules/edupage-api/src/Lesson.js b/node_modules/edupage-api/src/Lesson.js
+index 9ccbd5a..f13ab96 100644
+--- a/node_modules/edupage-api/src/Lesson.js
++++ b/node_modules/edupage-api/src/Lesson.js
+@@ -42,6 +42,11 @@ class Lesson extends RawData {
+ 		 */
+ 		this.lid = data.flags.dp0.lid;
+ 
++		/**
++		 * @type {string}
++		 */
++		this.groupnames = data.flags.dp0.groupnames;
++
+ 		/**
+ 		 * @type {Date}
+ 		 */
