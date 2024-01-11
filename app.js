@@ -17,10 +17,13 @@ const connectDB = require('./db/connect');
 // Middlewares
 const notFoundMiddleware = require('./middlewares/not-found');
 const errorHandlerMiddleware = require('./middlewares/error-handler');
+const authenticateUser = require('./middlewares/authentication');
+const authenticateAdmin = require('./middlewares/admin-authentication');
 
 // Routes
 const authRouter = require('./routes/auth');
 const semesterRouter = require('./routes/semester');
+const studentRouter = require('./routes/student');
 
 // it is a legacy line of code so that it would work when we upload it to heroku, in a newer version this line of code seems to be redundant
 app.set('trust proxy', 1);
@@ -37,7 +40,8 @@ app.use(xss());
 
 // Routes
 app.use('/api/v1/auth', authRouter);
-app.use('/api/v1/semester', semesterRouter); // Make it only available for admin users
+app.use('/api/v1/semester', authenticateUser, authenticateAdmin, semesterRouter);
+app.use('/api/v1/student', authenticateUser, studentRouter);
 
 // Error Handler
 app.use(notFoundMiddleware);

@@ -1,1 +1,8 @@
-allow the student to change the semester 
+DONE: allow the student to change the semester 
+
+Heroku
+For patch-package to work on Heroku applications, you must specify NPM_CONFIG_PRODUCTION=false or YARN_PRODUCTION=false. See this issue for more details.
+
+DONE: Make the login and register system. when you register you specify the group of yours and the semester
+
+DONE: Add admin priviliges 

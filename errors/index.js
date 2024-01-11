@@ -1,9 +1,11 @@
 const BadRequestError = require('./bad-request');
 const NotFoundError = require('./not-found');
-const UnathenticatedError = require('./unathenticated');
+const UnauthenticatedError = require('./unathenticated');
+const ForbiddenError = require('./forbidden');
 
 module.exports = {
   BadRequestError,
   NotFoundError,
-  UnathenticatedError
+  UnauthenticatedError,
+  ForbiddenError
 };
