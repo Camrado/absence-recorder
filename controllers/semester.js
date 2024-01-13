@@ -1,10 +1,11 @@
 const Semester = require('../models/Semester');
 const { BadRequestError } = require('../errors');
 const mongoose = require('mongoose');
+const { StatusCodes } = require('http-status-codes');
 
 const createSemester = async (req, res) => {
   const semester = await Semester.create(req.body);
-  res.status(201).json({ msg: `Semester '${semester.name}' was successfully created.` });
+  res.status(StatusCodes.CREATED).json({ msg: `Semester '${semester.name}' was successfully created.` }, semester);
 };
 
 const getSemester = async (req, res) => {
@@ -33,7 +34,7 @@ const getSemester = async (req, res) => {
     semester = await Semester.find({});
   }
 
-  res.status(200).json(semester);
+  res.status(StatusCodes.OK).json(semester);
 };
 
 module.exports = {

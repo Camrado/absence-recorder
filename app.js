@@ -24,6 +24,7 @@ const authenticateAdmin = require('./middlewares/admin-authentication');
 const authRouter = require('./routes/auth');
 const semesterRouter = require('./routes/semester');
 const studentRouter = require('./routes/student');
+const courseHourRouter = require('./routes/course-hour');
 
 // it is a legacy line of code so that it would work when we upload it to heroku, in a newer version this line of code seems to be redundant
 app.set('trust proxy', 1);
@@ -41,6 +42,7 @@ app.use(xss());
 // Routes
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/semester', authenticateUser, authenticateAdmin, semesterRouter);
+app.use('/api/v1/course-hour', authenticateUser, authenticateAdmin, courseHourRouter);
 app.use('/api/v1/student', authenticateUser, studentRouter);
 
 // Error Handler
