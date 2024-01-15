@@ -7,18 +7,22 @@ const AttendanceSchema = new mongoose.Schema({
   },
   skipped_lessons: {
     type: Number,
+    default: 0,
     required: true
   },
   attended_lessons: {
     type: Number,
+    default: 0,
     required: true
   },
   remaining_skips: {
     type: Number,
+    default: 0,
     required: true
   },
   remaining_lessons: {
     type: Number,
+    default: 0,
     required: true
   },
   student_id: {
