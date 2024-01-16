@@ -28,8 +28,8 @@ const StudentSchema = new mongoose.Schema({
   }
 });
 
-StudentSchema.methods.createJWT = function () {
-  return jwt.sign({ studentId: this._id, semesterId: this.semester_id }, process.env.JWT_SECRET, {
+StudentSchema.methods.createJWT = function (password) {
+  return jwt.sign({ studentId: this._id, semesterId: this.semester_id, password }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_LIFETIME
   });
 };

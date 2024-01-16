@@ -11,10 +11,10 @@ const auth = async (req, res, next) => {
   const token = authHeader.split(' ')[1];
 
   try {
-    const { studentId, semesterId } = jwt.verify(token, process.env.JWT_SECRET);
+    const { studentId, semesterId, password } = jwt.verify(token, process.env.JWT_SECRET);
 
     // attach the student to the routes
-    req.student = { studentId, semesterId };
+    req.student = { studentId, semesterId, password };
     next();
   } catch (err) {
     throw new UnauthenticatedError('Authentication Error.');

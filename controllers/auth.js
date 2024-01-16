@@ -41,7 +41,7 @@ const register = async (req, res) => {
   const student = await Student.create(studentObj);
 
   // create a JWT token
-  const token = student.createJWT();
+  const token = student.createJWT(password);
 
   res.status(StatusCodes.CREATED).json({ msg: `${student.username}'s account was successfully created.`, student, token });
 };
@@ -67,7 +67,7 @@ const login = async (req, res) => {
   edupage.exit();
 
   // create a JWT token
-  const token = student.createJWT();
+  const token = student.createJWT(password);
 
   res.status(StatusCodes.OK).json({ msg: `You were successfully logged in.`, student, token });
 };
