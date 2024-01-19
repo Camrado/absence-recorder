@@ -86,7 +86,9 @@ const getAttendanceStatus = async (req, res) => {
     totalLessons: totalLessonsNumber
   };
 
-  res.status(StatusCodes.OK).json(attendanceStatus);
+  res
+    .status(StatusCodes.OK)
+    .json({ msg: `Attendance status for ${courseName} course was successfully retrieved.`, attendanceStatus });
 };
 
 module.exports = {
