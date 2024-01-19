@@ -25,6 +25,7 @@ const authRouter = require('./routes/auth');
 const semesterRouter = require('./routes/semester');
 const studentRouter = require('./routes/student');
 const courseHourRouter = require('./routes/course-hour');
+// const attendanceStatusRouter = require('./routes/attendance-status');
 const attendanceRouter = require('./routes/attendance');
 const timetableRouter = require('./routes/timetable');
 
@@ -46,6 +47,7 @@ app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/semester', authenticateUser, authenticateAdmin, semesterRouter);
 app.use('/api/v1/course-hour', authenticateUser, authenticateAdmin, courseHourRouter);
 app.use('/api/v1/student', authenticateUser, studentRouter);
+// app.use('/api/v1/attendance', authenticateUser, attendanceStatusRouter);
 app.use('/api/v1/attendance', authenticateUser, attendanceRouter);
 app.use('/api/v1/timetable', authenticateUser, timetableRouter);
 

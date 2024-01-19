@@ -12,9 +12,19 @@ const errorHandlerMiddleware = (err, req, res, next) => {
     customError.msg = 'Failed to login. Please provide correct credentials to your Edupage Account.';
     customError.statusCode = StatusCodes.UNAUTHORIZED;
   }
-  if (err.code === 11000) {
+  if (err.code === 11000 && err.keyPattern.username) {
     customError.msg = `Failed to register. The account with '${err.keyValue.username}' username is already registered.`;
     customError.statusCode = StatusCodes.UNAUTHORIZED;
+  }
+  if (err.code === 11000 && err.keyPattern.date && err.keyPattern.period) {
+    customError.msg = `Failed to create an attendance record at period ${
+      err.keyValue.period
+    } at ${err.keyValue.date.toLocaleDateString('en-us', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    })}, because it is already taken.`;
+    customError.statusCode = StatusCodes.BAD_REQUEST;
   }
   if (err.name === 'ValidationError') {
     customError.msg = err.message;

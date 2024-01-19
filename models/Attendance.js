@@ -1,29 +1,24 @@
 const mongoose = require('mongoose');
 
-const AttendanceSchema = new mongoose.Schema({
+const AttendaceSchema = new mongoose.Schema({
   course: {
     type: String,
     required: true
   },
-  skipped_lessons: {
-    type: Number,
-    default: 0,
-    required: true
+  date: {
+    type: Date,
+    required: true,
+    unique: false
   },
-  attended_lessons: {
+  period: {
     type: Number,
-    default: 0,
-    required: true
+    required: true,
+    unique: false
   },
-  remaining_skips: {
-    type: Number,
-    default: 0,
-    required: true
-  },
-  remaining_lessons: {
-    type: Number,
-    default: 0,
-    required: true
+  attended: {
+    type: Boolean,
+    required: false,
+    default: null
   },
   student_id: {
     type: mongoose.Schema.Types.ObjectId,
@@ -32,4 +27,6 @@ const AttendanceSchema = new mongoose.Schema({
   }
 });
 
-module.exports = mongoose.model('Attendance', AttendanceSchema);
+AttendaceSchema.index({ date: 1, period: 1, student_id: 1 }, { unique: true });
+
+module.exports = mongoose.model('Attendance', AttendaceSchema);
