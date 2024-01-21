@@ -1,6 +1,22 @@
 const { StatusCodes } = require('http-status-codes');
 const { BadRequestError } = require('../errors');
 const Student = require('../models/Student');
+const Semester = require('../models/Semester');
+
+const getStudentData = async (req, res) => {
+  const { studentId, semesterId } = req.student;
+  const student = await Student.findById(studentId);
+  const semester = await Semester.findById(semesterId);
+
+  let studentData = {
+    username: student.username,
+    term: student.term_number,
+    group: student.group_number,
+    semester: semester.name
+  };
+
+  res.status(StatusCodes.OK).json({ ...studentData });
+};
 
 const updateStudent = async (req, res) => {
   const { term, group } = req.body;
@@ -26,4 +42,4 @@ const updateStudent = async (req, res) => {
   res.status(StatusCodes.OK).json({ msg: `Your account was successfully updated.`, student });
 };
 
-module.exports = { updateStudent };
+module.exports = { getStudentData, updateStudent };

@@ -7,4 +7,6 @@ DONE: Make the login and register system. when you register you specify the grou
 
 DONE: Add admin priviliges 
 
-DONE: Make another table for attendance date, period, subject, attended
+DONE: Make another table for attendance date, period, subject, attended\
+
+Create a /me route that the front end will access every time the user opens the app. and if that route returns 401 authenticate error. it means that either the user is not logged in or his jwt token's lifetime has expired. so you should delete that value from the localstorage, so the user can log in again. BTW on the frontend in the main OnMounted() you should take 1 day less to leave some timespace for jwt if it expires in the middle of application

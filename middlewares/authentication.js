@@ -11,7 +11,16 @@ const auth = async (req, res, next) => {
   const token = authHeader.split(' ')[1];
 
   try {
-    const { studentId, semesterId, password } = jwt.verify(token, process.env.JWT_SECRET);
+    const data = jwt.verify(token, process.env.JWT_SECRET);
+
+    const now = new Date();
+    const expireDate = new Date(data.exp * 1000);
+
+    if (now > expireDate) {
+      throw new UnauthenticatedError("You've been logged out. Please sign in again.");
+    }
+
+    const { studentId, semesterId, password } = data;
 
     // attach the student to the routes
     req.student = { studentId, semesterId, password };

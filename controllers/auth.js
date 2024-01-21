@@ -42,8 +42,12 @@ const register = async (req, res) => {
 
   // create a JWT token
   const token = student.createJWT(password);
+  const expireDate = new Date();
+  expireDate.setDate(new Date().getDate() + +process.env.JWT_LIFETIME.substring(0, 2));
 
-  res.status(StatusCodes.CREATED).json({ msg: `${student.username}'s account was successfully created.`, student, token });
+  res
+    .status(StatusCodes.CREATED)
+    .json({ msg: `${student.username}'s account was successfully created.`, student, token, expireDate });
 };
 
 const login = async (req, res) => {
@@ -68,8 +72,10 @@ const login = async (req, res) => {
 
   // create a JWT token
   const token = student.createJWT(password);
+  const expireDate = new Date();
+  expireDate.setDate(new Date().getDate() + +process.env.JWT_LIFETIME.substring(0, 2));
 
-  res.status(StatusCodes.OK).json({ msg: `You were successfully logged in.`, student, token });
+  res.status(StatusCodes.OK).json({ msg: `You were successfully logged in.`, student, token, expireDate });
 };
 
 module.exports = { login, register };
