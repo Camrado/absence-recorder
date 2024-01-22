@@ -59,7 +59,7 @@ const recordTheAttendance = async (req, res) => {
     await updatedAttendanceRecord.save();
   }
 
-  res.status(StatusCodes.OK).json({ msg: `Attendance Records were successfully updated.`, updatedAttendanceRecords });
+  res.status(StatusCodes.OK).json({ msg: `Attendance Records were successfully updated.` });
 };
 
 const getAttendanceStatus = async (req, res) => {
@@ -85,6 +85,10 @@ const getAttendanceStatus = async (req, res) => {
     remainingSkips: Math.floor(totalLessonsNumber / 4) - skippedLessonsNumber,
     totalLessons: totalLessonsNumber
   };
+
+  if ((courseName.includes('Physics') || courseName.includes('Chemistry')) && courseName.includes('PW')) {
+    attendanceStatus.remainingSkips = 0;
+  }
 
   res
     .status(StatusCodes.OK)

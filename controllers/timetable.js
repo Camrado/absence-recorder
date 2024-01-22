@@ -1,5 +1,6 @@
 const { StatusCodes } = require('http-status-codes');
 const Student = require('../models/Student');
+const Attendance = require('../models/Attendance');
 const { Edupage } = require('edupage-api');
 
 const getTimetable = async (req, res) => {
@@ -17,12 +18,16 @@ const getTimetable = async (req, res) => {
   edupage.exit;
 
   const formattedLessons = [];
+  const lessonsAttendanceStatuses = await Attendance.find({ date: new Date(date) });
 
   for (let lesson of lessons) {
+    const attended = lessonsAttendanceStatuses.find((l) => `${l.period}` === lesson.period.short)?.attended;
+
     const tempLesson = {
       period: lesson.period.short,
       subject: lesson.subject.name,
-      group: lesson.groupnames[0]
+      group: lesson.groupnames[0],
+      attended
     };
 
     formattedLessons.push(tempLesson);
