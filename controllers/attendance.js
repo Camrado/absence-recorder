@@ -125,7 +125,7 @@ const getUnmarkedDates = async (req, res) => {
   const edupage = new Edupage();
   await edupage.login(student.username, password);
 
-  const endDate = new Date('2024-02-10'); // ! changed to new Date()
+  const endDate = new Date('2024-02-02'); // ! changed to new Date()
   const startDate = new Date(endDate); // one month before now
   startDate.setMonth(endDate.getMonth() - 1);
 
