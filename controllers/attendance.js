@@ -3,12 +3,15 @@ const { BadRequestError } = require('../errors');
 const Attendance = require('../models/Attendance');
 const CourseHour = require('../models/CourseHour');
 const Semester = require('../models/Semester');
-const getCorrectCourseName = require('../utils/convertCourseName');
+const Student = require('../models/Student');
+const MarkedDate = require('../models/MarkedDate');
+const { Edupage } = require('edupage-api');
+const { getCorrectCourseName, subjectsL0S2 } = require('../utils/convertCourseName');
 
 const recordTheAttendance = async (req, res) => {
   const { studentId, semesterId } = req.student;
   // ? lessons array is a list of lesson objects where each object has: string course (course name), boolean attended, number period
-  const { date, lessons } = req.body;
+  const { date, isDateMarked, lessons } = req.body;
   const semester = await Semester.findById(semesterId);
   let updatedAttendanceRecords = [];
 
@@ -59,6 +62,13 @@ const recordTheAttendance = async (req, res) => {
     await updatedAttendanceRecord.save();
   }
 
+  if (isDateMarked === true) {
+    let isDateAlreadyMarked = await MarkedDate.findOne({ date: new Date(date), student_id: studentId });
+    if (!isDateAlreadyMarked) {
+      await MarkedDate.create({ date: new Date(date), student_id: studentId });
+    }
+  }
+
   res.status(StatusCodes.OK).json({ msg: `Attendance Records were successfully updated.` });
 };
 
@@ -74,6 +84,19 @@ const getAttendanceStatus = async (req, res) => {
 
   const attendedLessonsNumber = await Attendance.countDocuments({ course: courseName, attended: true, student_id: studentId });
   const skippedLessonsNumber = await Attendance.countDocuments({ course: courseName, attended: false, student_id: studentId });
+
+  if (courseName == 'Azerbaijani Language') {
+    const attendanceStatus = {
+      course: courseName,
+      attendedLessons: attendedLessonsNumber,
+      skippedLessons: skippedLessonsNumber
+    };
+
+    return res
+      .status(StatusCodes.OK)
+      .json({ msg: `Attendance status for ${courseName} course was successfully retrieved.`, attendanceStatus });
+  }
+
   const courseHour = await CourseHour.findOne({ course: courseName, semester_id: semesterId });
   const totalLessonsNumber = courseHour.hours / 1.5;
 
@@ -95,7 +118,58 @@ const getAttendanceStatus = async (req, res) => {
     .json({ msg: `Attendance status for ${courseName} course was successfully retrieved.`, attendanceStatus });
 };
 
+const getUnmarkedDates = async (req, res) => {
+  const { studentId, password } = req.student;
+  const student = await Student.findById(studentId);
+
+  const edupage = new Edupage();
+  await edupage.login(student.username, password);
+
+  const endDate = new Date('2024-02-10'); // ! changed to new Date()
+  const startDate = new Date(endDate); // one month before now
+  startDate.setMonth(endDate.getMonth() - 1);
+
+  const timetables = await edupage.fetchTimetablesForDates(startDate, endDate);
+
+  edupage.exit();
+
+  let markedDates = await MarkedDate.find({ student_id: studentId });
+  markedDates = markedDates.map((markedDate) => markedDate.date.getTime()); // converting to miliseconds to be able to compare
+
+  let unmarkedDates = [];
+
+  for (let timetable of timetables) {
+    if (markedDates.includes(timetable.date.getTime())) {
+      continue;
+    } else if (timetable.lessons.length === 0) {
+      continue;
+    } else if (timetable.lessons.length !== 0) {
+      // Check if the lessons are only for the other group or not
+      let onlyOtherGroup = true;
+      let otherGroupNumber = student.group_number === 1 ? 2 : 1;
+
+      for (let lesson of timetable.lessons) {
+        if (!lesson.groupnames[0].includes(`${otherGroupNumber}`)) {
+          onlyOtherGroup = false;
+          break;
+        }
+      }
+
+      if (onlyOtherGroup) continue;
+      else unmarkedDates.push(timetable.date);
+    }
+  }
+
+  res.status(StatusCodes.OK).json({ unmarkedDates });
+};
+
+const getSubjectNames = (req, res) => {
+  res.status(StatusCodes.OK).json({ subjects: Object.entries(subjectsL0S2) });
+};
+
 module.exports = {
   recordTheAttendance,
-  getAttendanceStatus
+  getAttendanceStatus,
+  getUnmarkedDates,
+  getSubjectNames
 };

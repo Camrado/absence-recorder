@@ -1,5 +1,5 @@
 diff --git a/node_modules/edupage-api/src/Lesson.js b/node_modules/edupage-api/src/Lesson.js
-index 9ccbd5a..f13ab96 100644
+index 9ccbd5a..6e5ccf5 100644
 --- a/node_modules/edupage-api/src/Lesson.js
 +++ b/node_modules/edupage-api/src/Lesson.js
 @@ -42,6 +42,11 @@ class Lesson extends RawData {
@@ -14,3 +14,90 @@ index 9ccbd5a..f13ab96 100644
  		/**
  		 * @type {Date}
  		 */
+@@ -50,27 +55,27 @@ class Lesson extends RawData {
+ 		/**
+ 		 * @type {string}
+ 		 */
+-		this.homeworkNote = data.flags.dp0.note_homework;
++		// this.homeworkNote = data.flags.dp0.note_homework;
+ 
+ 		/**
+ 		 * @type {string}
+ 		 */
+-		this.absentNote = data.flags.dp0.note_student_absent;
++		// this.absentNote = data.flags.dp0.note_student_absent;
+ 
+ 		/**
+ 		 * @type {string}
+ 		 */
+-		this.curriculum = data.flags.dp0.note_wd || null;
++		// this.curriculum = data.flags.dp0.note_wd || null;
+ 
+ 		/**
+ 		 * @type {string}
+ 		 */
+-		this.onlineLessonURL = data.flags.dp0.ol_url || null;
++		// this.onlineLessonURL = data.flags.dp0.ol_url || null;
+ 
+ 		/**
+ 		 * @type {boolean}
+ 		 */
+-		this.isOnlineLesson = !!this.onlineLessonURL;
++		// this.isOnlineLesson = !!this.onlineLessonURL;
+ 
+ 
+ 		/**
+@@ -86,27 +91,27 @@ class Lesson extends RawData {
+ 		/**
+ 		 * @type {Class[]}
+ 		 */
+-		this.classes = [];
++		// this.classes = [];
+ 
+ 		/**
+ 		 * @type {Classroom[]}
+ 		 */
+-		this.classrooms = [];
++		// this.classrooms = [];
+ 
+ 		/**
+ 		 * @type {Student[]}
+ 		 */
+-		this.students = [];
++		// this.students = [];
+ 
+ 		/**
+ 		 * @type {Teacher[]}
+ 		 */
+-		this.teachers = [];
++		// this.teachers = [];
+ 
+ 		/**
+ 		 * @type {Assignment[]}
+ 		 */
+-		this.assignments = [];
++		// this.assignments = [];
+ 
+ 		if(this.edupage) Lesson.prototype.init.call(this);
+ 	}
+@@ -122,13 +127,13 @@ class Lesson extends RawData {
+ 
+ 		this.period = this.edupage.periods.find(e => e.id == this._data.flags.dp0.period);
+ 		this.subject = this.edupage.subjects.find(e => e.id == this._data.flags.dp0.subjectid);
+-		this.classes = this._data.flags.dp0.classids.map(id => this.edupage.classes.find(e => e.id == id));
+-		this.classrooms = this._data.flags.dp0.classroomids.map(id => this.edupage.classrooms.find(e => e.id == id));
+-		this.students = this._data.flags.dp0.studentids.map(id => this.edupage.students.find(e => e.id == id));
+-		this.teachers = this._data.flags.dp0.teacherids.map(id => this.edupage.teachers.find(e => e.id == id));
+-		this.assignments = this._data.flags.dp0.homeworkids.map(id =>
+-			this.edupage.assignments.find(e => e.hwkid && e.hwkid.includes(id.split(":")[1] || id))
+-		);
++		// this.classes = this._data.flags.dp0.classids.map(id => this.edupage.classes.find(e => e.id == id));
++		// this.classrooms = this._data.flags.dp0.classroomids.map(id => this.edupage.classrooms.find(e => e.id == id));
++		// this.students = this._data.flags.dp0.studentids.map(id => this.edupage.students.find(e => e.id == id));
++		// this.teachers = this._data.flags.dp0.teacherids.map(id => this.edupage.teachers.find(e => e.id == id));
++		// this.assignments = this._data.flags.dp0.homeworkids.map(id =>
++		// 	this.edupage.assignments.find(e => e.hwkid && e.hwkid.includes(id.split(":")[1] || id))
++		// );
+ 
+ 		//In case the period is not specified
+ 		if(!this.period) {

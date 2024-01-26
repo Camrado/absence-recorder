@@ -7,9 +7,10 @@ const subjectsL0S2 = {
   english: 'English',
   french: 'French',
   geoscience: 'Introduction to Geosciences',
-  methodology: 'Working Methodology',
+  methodology: 'Working Methodology Geosciences',
   physicsPW: 'Basic Physics PW',
-  chemistryPW: 'Basic Chemistry PW'
+  chemistryPW: 'Basic Chemistry PW',
+  azerbaijani: 'Azerbaijani Language'
 };
 
 const getCorrectCourseName = (subject, semester) => {
@@ -30,6 +31,6 @@ const getCorrectCourseName = (subject, semester) => {
   }
 };
 
-// console.log(getCorrectCourseName('analysis', 'L0S2'));
+// console.log(getCorrectCourseName('UE104 Basic Chemistry2/PW', 'L0S2'));
 
-module.exports = getCorrectCourseName;
+module.exports = { getCorrectCourseName, subjectsL0S2 };
