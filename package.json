@@ -4,8 +4,9 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js",
-    "postinstall": "patch-package"
+    "start": "node app.js",
+    "postinstall": "patch-package",
+    "dev": "nodemon app.js"
   },
   "author": "",
   "license": "ISC",
