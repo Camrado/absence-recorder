@@ -39,7 +39,19 @@ app.use(
 );
 app.use(express.json());
 app.use(helmet());
-app.use(cors({ origin: 'https://skipsmart.netlify.app' })); // ! CHANGED IT
+
+var whitelist = ['https://skipsmart.netlify.app'];
+var corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
+};
+
+app.use(cors(corsOptions)); // ! CHANGED IT
 app.use(xss());
 
 // Routes
