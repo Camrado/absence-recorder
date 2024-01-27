@@ -39,7 +39,7 @@ app.set('trust proxy', 1);
 // );
 app.use(express.json());
 app.use(helmet());
-app.use(cors({ origin: '*' }));
+app.use(cors({ origin: '*' })); // ! CHANGED IT
 app.use(xss());
 
 // Routes
