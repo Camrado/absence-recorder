@@ -40,8 +40,8 @@ app.use(
 app.use(express.json());
 app.use(helmet());
 
-var whitelist = ['https://skipsmart.netlify.app'];
-var corsOptions = {
+let whitelist = process.env.WHITELIST.split(' ');
+let corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
       callback(null, true);
