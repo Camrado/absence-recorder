@@ -40,7 +40,7 @@ app.use(
 app.use(express.json());
 app.use(helmet());
 
-let whitelist = process.env.WHITELIST.split(' ');
+let whitelist = process.env.WHITELIST?.split(' ') ?? [''];
 let corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
