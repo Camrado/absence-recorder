@@ -36,7 +36,6 @@ const recordTheAttendance = async (req, res) => {
     }
 
     let attendanceRecord = await Attendance.findOne({
-      course: courseName,
       date: new Date(date),
       period: lesson.period,
       student_id: studentId
@@ -50,6 +49,8 @@ const recordTheAttendance = async (req, res) => {
         period: lesson.period,
         student_id: studentId
       });
+    } else {
+      attendanceRecord.course = courseName;
     }
 
     attendanceRecord.attended = lesson.attended;
