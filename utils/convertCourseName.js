@@ -25,6 +25,8 @@ const getCorrectCourseName = (subject, semester) => {
           return subjectsL0S2[subjectKey];
         }
       }
+    } else {
+      return 'none';
     }
   } catch (e) {
     // pass

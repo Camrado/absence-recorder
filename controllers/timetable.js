@@ -38,6 +38,10 @@ const getTimetable = async (req, res) => {
       attended
     };
 
+    if (convertCourseName(tempLesson.course, semester.name) == 'none') {
+      continue;
+    }
+
     formattedLessons.push(tempLesson);
   }
 
