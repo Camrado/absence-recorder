@@ -110,9 +110,9 @@ const getAttendanceStatus = async (req, res) => {
     totalLessons: totalLessonsNumber
   };
 
-  if ((courseName.includes('Physics') || courseName.includes('Chemistry')) && courseName.includes('PW')) {
-    attendanceStatus.remainingSkips = 0;
-  }
+  // if ((courseName.includes('Physics') || courseName.includes('Chemistry')) && courseName.includes('PW')) {
+  //   attendanceStatus.remainingSkips = 0;
+  // }
 
   res
     .status(StatusCodes.OK)
